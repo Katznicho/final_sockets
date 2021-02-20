@@ -13,7 +13,7 @@ typedef struct Patients
 	char patient_gender[50];
 	char DOI[100];
 	char officer_name[100];
-	
+
 } patient;
 patient patients[MAX_PATIENTS];
 //file
@@ -43,11 +43,11 @@ int main(int argc, char **argv)
 		char server_string[256];
 		char store[200];
 		int index = 0;
-        if (mysql_real_connect(con, "127.0.0.1", "root", "", "final_project", 0, NULL, 0) == NULL)
-			{
-				fprintf(stderr, "%s\n", mysql_error(con));
-				printf("connected\n We are connected\n");
-			}
+		if (mysql_real_connect(con, "127.0.0.1", "root", "", "final_project", 0, NULL, 0) == NULL)
+		{
+			fprintf(stderr, "%s\n", mysql_error(con));
+			printf("connected\n We are connected\n");
+		}
 		while (fgets(server_string, 100, server_file) != NULL)
 		{
 
@@ -63,23 +63,22 @@ int main(int argc, char **argv)
 				   patients[index].DOI);
 			char statement[200];
 
-			snprintf(statement, 500,"INSERT INTO patients_list(PatientName,OfficerUserName, Gender ,DOI)\
-			 VALUES('%s', '%s', '%s', '%s')", patients[index].patient_name, patients[index].officer_name,
-			 patients[index].patient_gender, patients[index].DOI);
-			
+			snprintf(statement, 500, "INSERT INTO patients_list(PatientName,OfficerUserName, Gender ,DOI)\
+			 VALUES('%s', '%s', '%s', '%s')",
+					 patients[index].patient_name, patients[index].officer_name,
+					 patients[index].patient_gender, patients[index].DOI);
+
 			if (mysql_query(con, statement))
 			{
 				//finish_with_error(con);
-                fprintf(stderr, "%s\n", mysql_error(con));
+				fprintf(stderr, "%s\n", mysql_error(con));
 				printf("\ninsertedWell\n");
 			}
 
-
 			index++;
 		}
-
 	}
-     fclose(fopen("/home/katende/Desktop/sockets_final/enroll.txt", "w"));
+	fclose(fopen("/home/katende/Desktop/sockets_final/enroll.txt", "w"));
 	mysql_close(con);
 	exit(0);
 }
